@@ -1,3 +1,4 @@
+//Игра морской бой
 
 #include <iostream>
 #include <ctime>
@@ -19,6 +20,145 @@ int row[rows];
 char battle_haze[rows][elements];
 int score_1 = 0;
 int score_2 = 0;
+
+void Clear();
+void Clear_battle_haze();
+void Show();
+void Show_battle_haze1();
+void Show_battle_haze2();
+int NumberOfShips1();
+int NumberOfShips2();
+void SetShips();
+bool Attack(int x,int y);
+
+int main()
+{
+    srand(time(NULL));
+    Clear();
+    Clear_battle_haze();
+    SetShips();
+    int pos1,pos2;
+    int player = 1;
+    char prompt = 'w';
+
+    while(true)
+    {
+        score_2 =  NumberOfShips2();
+        if (score_2 == 0){
+            cout << "PLAYER 1 is winner. Congratulations! " << endl;
+            Show();
+            system("pause");
+            return 0;
+        }
+        if(player == 1){
+            system("cls");
+            cout << "PLAYER 1" << endl;
+            cout << "BATTLE HAZE" << endl;
+            Show_battle_haze1();
+            cout << "Please input location. \n " << "Coordinate 1: "<< endl;
+            cin >> pos1; // провекра на диапазон
+
+            while (pos1 < 0 || pos1 > 9){
+                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 1: "<< endl;
+                cin >> pos1;
+            }
+            cout << "Coordinate 2: " << endl;
+            cin >> pos2; // провекра на диапазон
+
+            while (pos2 < 0 || pos2 > 9) {
+                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 2: "<< endl;
+                cin >> pos2;
+            }
+            if(Attack(pos1,pos2) == true) {
+                if (NumberOfShips2() == score_2){
+                    cout << "GENIUS! You hit in your ship!" << endl;
+                    cout << "Number of your ships left: " << NumberOfShips1() << endl;
+                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
+                    getch();
+                } else {
+                    cout << "You got me! :)" << endl;
+                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
+                    getch();
+                }
+            } else {
+                cout << "Sorry no ship at that position!" << endl;
+                cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
+                cout << "Do you want to continue (y/n)? " << endl;
+                cin >> prompt; // провекра на символ
+                while (prompt != 'y' && prompt != 'n'){
+                    cout << "Wrong symbol! Please try - (y/n) " << endl;
+                    cin >> prompt;
+                }
+            }
+            if(prompt == 'n'){
+                break;
+            }
+
+
+            player = 2;
+        }
+
+        score_1 =  NumberOfShips1();
+        if (score_1 == 0) {
+            cout << "PLAYER 2 is winner. Congratulations! " << endl;
+            Show();
+            system("pause");
+            return 0;
+        }
+        if (player == 2) {
+            system("cls");
+            cout << "PLAYER 2" << endl;
+            cout << "BATTLE HAZE" << endl;
+            Show_battle_haze2();
+            cout << "Please input location. \n " << "Coordinate 1: "<< endl;
+            cin >> pos1; // провекра на диапазон
+            while (pos1 < 0 || pos1 > 9){
+                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 1: "<< endl;
+                cin >> pos1;
+            }
+            cout << "Coordinate 2: " << endl;
+            cin >> pos2; // провекра на диапазон
+            while (pos2 < 0 || pos2 > 9){
+                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 2: "<< endl;
+                cin >> pos2;
+            }
+            if(Attack(pos1,pos2)== true) {
+                if (NumberOfShips1() == score_1){
+                    cout << "GENIUS! You hit in your ship!" << endl;
+                    cout << "Number of your ships left: " << NumberOfShips1() << endl;
+                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
+                    getch();
+
+                } else {
+                    cout << "You got me! :)" << endl;
+                    cout << "Number of opponent's ships left: " << NumberOfShips1() << endl;
+                    getch();
+                }
+            }
+            else  {
+                cout << "Sorry no ship at that position!" << endl;
+                cout << "Number of opponent's ships left: " << NumberOfShips1() << endl;
+                cout << "Do you want to continue (y/n)? " << endl;
+                cin >> prompt; // провекра на символ
+                while (prompt != 'y' && prompt != 'n'){
+                    cout << "Wrong symbol! Please try - (y/n) " << endl;
+                    cin >> prompt;
+                }
+            }
+            if(prompt == 'n'){
+                break;
+            }
+            player = 1;
+        }
+
+    }
+    cout << "PLAYER " << player << " LOSE" <<  endl;
+    cout << "Game over!" << endl;
+
+    Show();
+    system("pause");
+    return 0;
+}
 
 void Clear()
 {
@@ -211,133 +351,4 @@ bool Attack(int x,int y)
     }
     battle_haze[x][y] = 'X';
     return false;
-}
-
-int main()
-{
-    srand(time(NULL));
-    Clear();
-    Clear_battle_haze();
-    SetShips();
-    int pos1,pos2;
-    int player = 1;
-    char prompt = 'w';
-
-    while(true)
-    {
-        score_2 =  NumberOfShips2();
-        if (score_2 == 0){
-            cout << "PLAYER 1 is winner. Congratulations! " << endl;
-            Show();
-            system("pause");
-            return 0;
-        }
-        if(player == 1){
-            system("cls");
-            cout << "PLAYER 1" << endl;
-            cout << "BATTLE HAZE" << endl;
-            Show_battle_haze1();
-            cout << "Please input location. \n " << "Coordinate 1: "<< endl;
-            cin >> pos1; // провекра на диапазон
-
-            while (pos1 < 0 || pos1 > 9){
-                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 1: "<< endl;
-                cin >> pos1;
-            }
-            cout << "Coordinate 2: " << endl;
-            cin >> pos2; // провекра на диапазон
-
-            while (pos2 < 0 || pos2 > 9) {
-                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 2: "<< endl;
-                cin >> pos2;
-            }
-            if(Attack(pos1,pos2) == true) {
-                if (NumberOfShips2() == score_2){
-                    cout << "GENIUS! You hit in your ship!" << endl;
-                    cout << "Number of your ships left: " << NumberOfShips1() << endl;
-                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
-                    getch();
-                } else {
-                    cout << "You got me! :)" << endl;
-                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
-                    getch();
-                }
-            } else {
-                cout << "Sorry no ship at that position!" << endl;
-                cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
-                cout << "Do you want to continue (y/n)? " << endl;
-                cin >> prompt; // провекра на символ
-                while (prompt != 'y' && prompt != 'n'){
-                    cout << "Wrong symbol! Please try - (y/n) " << endl;
-                    cin >> prompt;
-                }
-            }
-            if(prompt == 'n'){
-                break;
-            }
-
-
-            player = 2;
-        }
-
-        score_1 =  NumberOfShips1();
-        if (score_1 == 0) {
-            cout << "PLAYER 2 is winner. Congratulations! " << endl;
-            Show();
-            system("pause");
-            return 0;
-        }
-        if (player == 2) {
-            system("cls");
-            cout << "PLAYER 2" << endl;
-            cout << "BATTLE HAZE" << endl;
-            Show_battle_haze2();
-            cout << "Please input location. \n " << "Coordinate 1: "<< endl;
-            cin >> pos1; // провекра на диапазон
-            while (pos1 < 0 || pos1 > 9){
-                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 1: "<< endl;
-                cin >> pos1;
-            }
-            cout << "Coordinate 2: " << endl;
-            cin >> pos2; // провекра на диапазон
-            while (pos2 < 0 || pos2 > 9){
-                cout << "Wrong location! From 0 to 9 please! \n " << "Coordinate 2: "<< endl;
-                cin >> pos2;
-            }
-            if(Attack(pos1,pos2)== true) {
-                if (NumberOfShips1() == score_1){
-                    cout << "GENIUS! You hit in your ship!" << endl;
-                    cout << "Number of your ships left: " << NumberOfShips1() << endl;
-                    cout << "Number of opponent's ships left: " << NumberOfShips2() << endl;
-                    getch();
-
-                } else {
-                    cout << "You got me! :)" << endl;
-                    cout << "Number of opponent's ships left: " << NumberOfShips1() << endl;
-                    getch();
-                }
-            }
-            else  {
-                cout << "Sorry no ship at that position!" << endl;
-                cout << "Number of opponent's ships left: " << NumberOfShips1() << endl;
-                cout << "Do you want to continue (y/n)? " << endl;
-                cin >> prompt; // провекра на символ
-                while (prompt != 'y' && prompt != 'n'){
-                    cout << "Wrong symbol! Please try - (y/n) " << endl;
-                    cin >> prompt;
-                }
-            }
-            if(prompt == 'n'){
-                break;
-            }
-            player = 1;
-        }
-
-    }
-    cout << "PLAYER " << player << " LOSE" <<  endl;
-    cout << "Game over!" << endl;
-
-    Show();
-    system("pause");
-    return 0;
 }
